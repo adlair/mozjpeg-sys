@@ -717,12 +717,12 @@ pub struct jpeg_memory_mgr {
 
 #[repr(C)]
 pub struct jpeg_color_converter_input {
-    input_buf: JSAMPARRAY,
-    image_width: JDIMENSION,
-    in_color_space: J_COLOR_SPACE,
-    input_components: c_int,
-    num_components: c_int,
-    rgb_ycc_tab: *const c_long,
+    pub input_buf: JSAMPARRAY,
+    pub image_width: JDIMENSION,
+    pub in_color_space: J_COLOR_SPACE,
+    pub input_components: c_int,
+    pub num_components: c_int,
+    pub rgb_ycc_tab: *const c_long,
 }
 
 pub type jpeg_marker_parser_method = Option<unsafe extern "C" fn(cinfo: &mut jpeg_decompress_struct) -> boolean>;
