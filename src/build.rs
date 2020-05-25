@@ -38,8 +38,11 @@ fn main() {
     let target_pointer_width = env::var("CARGO_CFG_TARGET_POINTER_WIDTH").expect("target");
 
     let files = &[
+        // This one is from mozjpeg for their compression extensions; removing it for now.
+        // "vendor/jcext.c"
+
         "vendor/jcapimin.c", "vendor/jcapistd.c", "vendor/jccoefct.c", "vendor/jccolor.c",
-        "vendor/jcdctmgr.c", "vendor/jcext.c", "vendor/jchuff.c", "vendor/jcinit.c",
+        "vendor/jcdctmgr.c", "vendor/jchuff.c", "vendor/jcinit.c",
         "vendor/jcmainct.c", "vendor/jcmarker.c", "vendor/jcmaster.c", "vendor/jcomapi.c",
         "vendor/jcparam.c", "vendor/jcphuff.c", "vendor/jcprepct.c", "vendor/jcsample.c",
         "vendor/jctrans.c", "vendor/jdapimin.c", "vendor/jdapistd.c", "vendor/jdatadst.c",

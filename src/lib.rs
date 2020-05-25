@@ -805,19 +805,6 @@ extern "C" {
     pub fn jpeg_abort_compress(cinfo: &mut jpeg_compress_struct);
     pub fn jpeg_abort_decompress(cinfo: &mut jpeg_decompress_struct);
     pub fn jpeg_resync_to_restart(cinfo: &mut jpeg_decompress_struct, desired: c_int) -> boolean;
-    pub fn jpeg_c_bool_param_supported(cinfo: &jpeg_compress_struct,
-                                   param: J_BOOLEAN_PARAM) -> boolean;
-    pub fn jpeg_c_set_bool_param(cinfo: &mut jpeg_compress_struct,
-                             param: J_BOOLEAN_PARAM, value: boolean);
-    pub fn jpeg_c_get_bool_param(cinfo: &jpeg_compress_struct,
-                             param: J_BOOLEAN_PARAM) -> boolean;
-    pub fn jpeg_c_float_param_supported(cinfo: &jpeg_compress_struct, param: J_FLOAT_PARAM) -> boolean;
-    pub fn jpeg_c_set_float_param(cinfo: &mut jpeg_compress_struct, param: J_FLOAT_PARAM, value: f32);
-    pub fn jpeg_c_get_float_param(cinfo: &jpeg_compress_struct, param: J_FLOAT_PARAM) -> f32;
-    pub fn jpeg_c_int_param_supported(cinfo: &jpeg_compress_struct, param: J_INT_PARAM) -> boolean;
-    pub fn jpeg_c_set_int_param(cinfo: &mut jpeg_compress_struct, param: J_INT_PARAM, value: c_int);
-    pub fn jpeg_c_get_int_param(cinfo: &jpeg_compress_struct, param: J_INT_PARAM) -> c_int;
-    pub fn jpeg_set_idct_method_selector(cinfo: &jpeg_compress_struct, param: *const c_void);
     #[cfg(test)] fn jsimd_can_rgb_ycc() -> c_int;
     #[cfg(test)] #[allow(dead_code)] fn jsimd_can_fdct_ifast() -> c_int;
     #[cfg(test)] #[allow(dead_code)] fn jsimd_fdct_ifast(block: *mut DCTELEM);
@@ -867,9 +854,10 @@ pub fn try_compress() {
         jpeg_std_error(&mut err);
         let mut cinfo: jpeg_compress_struct = mem::zeroed();
         cinfo.common.err = &mut err;
-        if 0 == jpeg_c_bool_param_supported(&cinfo, JBOOLEAN_TRELLIS_QUANT) {
-            panic!("Not linked to mozjpeg?");
-        }
+// This is from mozjpeg.
+//        if 0 == jpeg_c_bool_param_supported(&cinfo, JBOOLEAN_TRELLIS_QUANT) {
+//            panic!("Not linked to mozjpeg?");
+//        }
         jpeg_create_compress(&mut cinfo);
         jpeg_destroy_compress(&mut cinfo);
     }
