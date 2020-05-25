@@ -1,0 +1,4 @@
+[submodule "vendor"]
+	path = vendor
+	url = https://github.com/federicomenaquintero/libjpeg-turbo.git
+	branch = no_cinfo_in_simd
