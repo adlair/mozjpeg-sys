@@ -715,6 +715,16 @@ pub struct jpeg_memory_mgr {
     pub max_alloc_chunk: c_long,
 }
 
+#[repr(C)]
+pub struct jpeg_color_converter_input {
+    input_buf: JSAMPARRAY,
+    image_width: JDIMENSION,
+    in_color_space: J_COLOR_SPACE,
+    input_components: c_int,
+    num_components: c_int,
+    rgb_ycc_tab: *const c_long,
+}
+
 pub type jpeg_marker_parser_method = Option<unsafe extern "C" fn(cinfo: &mut jpeg_decompress_struct) -> boolean>;
 
 pub unsafe fn jpeg_create_decompress(dinfo: *mut jpeg_decompress_struct) {
@@ -805,7 +815,15 @@ extern "C" {
     pub fn jpeg_abort_compress(cinfo: &mut jpeg_compress_struct);
     pub fn jpeg_abort_decompress(cinfo: &mut jpeg_decompress_struct);
     pub fn jpeg_resync_to_restart(cinfo: &mut jpeg_decompress_struct, desired: c_int) -> boolean;
-    #[cfg(test)] fn jsimd_can_rgb_ycc() -> c_int;
+    pub fn jsimd_can_rgb_ycc() -> c_int;
+    pub fn jnosimd_rgb_ycc_convert(input: &jpeg_color_converter_input,
+                                 output_buf: JSAMPIMAGE_MUT,
+                                 output_row: JDIMENSION,
+                                 num_rows: c_int);
+    pub fn jsimd_rgb_ycc_convert(input: &jpeg_color_converter_input,
+                                 output_buf: JSAMPIMAGE_MUT,
+                                 output_row: JDIMENSION,
+                                 num_rows: c_int);
     #[cfg(test)] #[allow(dead_code)] fn jsimd_can_fdct_ifast() -> c_int;
     #[cfg(test)] #[allow(dead_code)] fn jsimd_fdct_ifast(block: *mut DCTELEM);
 }
